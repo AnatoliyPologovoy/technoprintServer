@@ -6,6 +6,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // For testing purposes
+app.use('/assets/images/knifes', express.static('/assets/images/knifes'))
+
 app.get('/', (req: Request, res: Response) => {
     res.send("<h2>It's Working  1 23!</h2>");
 });
