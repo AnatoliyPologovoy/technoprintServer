@@ -8,7 +8,7 @@ const knifes_1 = require("./knifes");
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
 // For testing purposes
-app.use('/assets/images/knifes', express_1.default.static('./assets/images/knifes'));
+app.use('/assets', express_1.default.static('assets'));
 app.get('/', (req, res) => {
     res.send("<h2>It's Working  1 23!</h2>");
 });
