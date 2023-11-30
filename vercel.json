@@ -13,12 +13,12 @@
    ],
    "routes": [
       {
-         "src": "/(.*)",
-         "dest": "src/index.ts"
+         "src": "/assets/(.*)",
+         "dest": "/assets"
       },
       {
-         "src": "/assets",
-         "dest": "/assets"
+         "src": "/(.*)",
+         "dest": "src/index.ts"
       }
    ]
 }
