@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon --inspect dist/index.js",
     "watch": "tsc -w",
-    "start": ""
+    "start": "node dist/index.js"
   },
   "author": "",
   "license": "ISC",
