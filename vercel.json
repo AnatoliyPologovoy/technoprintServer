@@ -1,10 +1,20 @@
 {
-    "version": 2,
-    "name": "technoprint-knifes",
-    "builds": [
-       { "src": "src/index.ts", "use": "@vercel/node" }
-    ],
-    "routes": [
-       { "src": "/(.*)", "dest": "/", "status": 200 }
-    ]
- }
+   "version": 2,
+   "name": "technoprint-knifes",
+   "builds": [
+      {
+         "src": "src/index.ts",
+         "use": "@vercel/node"
+      },
+      {
+         "src": "assets/**",
+         "use": "@vercel/static"
+      }
+   ],
+   "routes": [
+      {
+         "src": "/(.*)",
+         "dest": "src/index.ts"
+      }
+   ]
+}
