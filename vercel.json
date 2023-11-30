@@ -15,6 +15,10 @@
       {
          "src": "/(.*)",
          "dest": "src/index.ts"
+      },
+      {
+         "src": "/assets",
+         "dest": "/assets"
       }
    ]
 }
