@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.knifes = void 0;
+exports.newKnifesWithBase64 = exports.knifes = void 0;
+const fs_1 = __importDefault(require("fs"));
 exports.knifes = [
     {
         "number": 1,
@@ -16124,3 +16128,10 @@ exports.knifes = [
         "height": 50
     }
 ];
+exports.newKnifesWithBase64 = exports.knifes.map((item) => {
+    item.src = item.src.replace('//image', '/image');
+    const imgFile = '.' + item.src;
+    const fileinBase64 = fs_1.default.readFileSync(imgFile, { encoding: "base64" });
+    item.base64 = fileinBase64;
+    return item;
+});

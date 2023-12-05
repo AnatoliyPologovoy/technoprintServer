@@ -1,4 +1,7 @@
-type Knifes = {
+import fs from "fs";
+
+
+export type Knifes = {
     "number": number
     "src": string
     "size": string
@@ -11,6 +14,7 @@ type Knifes = {
     "width": number
     "height": number 
     "double"?: boolean,
+    "base64"?: string,
 }
 
 export const knifes: Knifes[] = [
@@ -16136,3 +16140,12 @@ export const knifes: Knifes[] = [
         "height": 50
     }
 ]
+
+export const newKnifesWithBase64 = knifes.map((item) => {
+    item.src = item.src.replace('//image', '/image')
+    const imgFile = '.' + item.src;
+    const fileinBase64 = fs.readFileSync(imgFile, { encoding: "base64" });
+    item.base64 = fileinBase64
+    return item
+})
+
