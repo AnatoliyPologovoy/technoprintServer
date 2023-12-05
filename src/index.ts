@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express'
 import { Knifes, knifes, newKnifesWithBase64 } from './knifes';
 import mongoose from 'mongoose';
 import { knifesModel } from './knifesModel';
+import cors from 'cors';
 
 const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net/?retryWrites=true&w=majority";
 
@@ -37,8 +38,8 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 
-// For testing purposes
 app.use('/assets', express.static('assets'))
+app.use(cors())
 
 app.get('/', (req: Request, res: Response) => {
     res.send("<h2>It's Working  1 23!</h2>");
