@@ -7,7 +7,7 @@ export const KnifeSchema = new Schema({
     src: String,
     size: String,
     rapport: String,
-    fragment: Number,
+    fragments: Number,
     fragmentsMargin: String,
     streams: Number,
     streamsMargin: Schema.Types.Mixed,

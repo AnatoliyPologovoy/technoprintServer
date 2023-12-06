@@ -13,8 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const knifes_1 = require("./knifes");
 const mongoose_1 = __importDefault(require("mongoose"));
 const knifesModel_1 = require("./knifesModel");
+const cors_1 = __importDefault(require("cors"));
 const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net/?retryWrites=true&w=majority";
 // const setKnifes = async (items: Knifes[]) => {
 //     if ((await knifesModel.find()).length === 0) {
@@ -24,6 +26,11 @@ const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net
 //         })
 //     }
 // }
+const setFragmentsKnifes = (items) => __awaiter(void 0, void 0, void 0, function* () {
+    items.forEach((item) => __awaiter(void 0, void 0, void 0, function* () {
+        yield knifesModel_1.knifesModel.updateOne({ number: item.number }, { fragments: item.fragments });
+    }));
+});
 // const addBase64toBD = async () => {
 //     newKnifesWithBase64.forEach( async (item) => {
 //         await knifesModel.updateOne({number: item.number}, {base64: item.base64})
@@ -34,13 +41,14 @@ mongoose_1.default
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
     // await setKnifes(knifes)
     // addBase64toBD()
+    yield setFragmentsKnifes(knifes_1.knifes);
     console.log('mongoDB connected');
 }))
     .catch((err) => console.log(err));
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 3000;
-// For testing purposes
 app.use('/assets', express_1.default.static('assets'));
+app.use((0, cors_1.default)());
 app.get('/', (req, res) => {
     res.send("<h2>It's Working  1 23!</h2>");
 });
