@@ -44,7 +44,17 @@ const PORT = process.env.PORT || 3000;
 
 
 app.use('/assets', express.static('assets'))
-app.use(cors())
+
+// настраиваем `CORS`
+const corsOptions = {
+    "origin": "https://technoprint.vercel.app/",
+    "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+    "preflightContinue": false,
+    "optionsSuccessStatus": 204,
+
+}
+
+app.use(cors(corsOptions))
 
 app.get('/', (req: Request, res: Response) => {
     res.send("<h2>It's Working  1 23!</h2>");
