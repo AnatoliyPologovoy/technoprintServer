@@ -25,7 +25,7 @@ import { checkQuery } from './helpers/checkQuery';
 // }
 
 mongoose
-    .connect(process.env.DB_CONN as string)
+    .connect("mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net/?retryWrites=true&w=majority")
     .then(async () => {
         // await setKnifes(knifes)
         // addBase64toBD()
@@ -45,7 +45,7 @@ app.use('/assets', express.static('assets'))
 
 // настраиваем `CORS`
 const corsOptions = {
-    "origin": false,
+    "origin": '*',
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
