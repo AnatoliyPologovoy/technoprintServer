@@ -25,7 +25,7 @@ import { checkQuery } from './helpers/checkQuery';
 // }
 
 mongoose
-    .connect("mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net/?retryWrites=true&w=majority")
+    .connect(process.env.DB_CONN as string)
     .then(async () => {
         // await setKnifes(knifes)
         // addBase64toBD()
