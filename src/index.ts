@@ -5,8 +5,6 @@ import { knifesModel } from './knifesModel';
 import cors from 'cors';
 import { checkQuery } from './helpers/checkQuery';
 
-const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net/?retryWrites=true&w=majority";
-
 // const setKnifes = async (items: Knifes[]) => {
 //     if ((await knifesModel.find()).length === 0) {
 //         items.forEach(async (item) => {
@@ -27,7 +25,7 @@ const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net
 // }
 
 mongoose
-    .connect(uri)
+    .connect(process.env.DB_CONN as string)
     .then(async () => {
         // await setKnifes(knifes)
         // addBase64toBD()
@@ -47,7 +45,7 @@ app.use('/assets', express.static('assets'))
 
 // настраиваем `CORS`
 const corsOptions = {
-    "origin": "https://technoprint.vercel.app/",
+    "origin": false,
     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
     "preflightContinue": false,
     "optionsSuccessStatus": 204,
