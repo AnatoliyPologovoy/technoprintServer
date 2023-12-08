@@ -3,6 +3,7 @@ import { Knifes, knifes, newKnifesWithBase64 } from './knifes';
 import mongoose from 'mongoose';
 import { knifesModel } from './knifesModel';
 import cors from 'cors';
+import { checkQuery } from './helpers/checkQuery';
 
 const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net/?retryWrites=true&w=majority";
 
@@ -53,14 +54,26 @@ app.get('/knifes', async (req: Request, res: Response) => {
     res.send(allKnifes);
 })
 
-app.get('/knifes/:number', async (req: Request, res: Response) => {
-    const knifesNumber = req.params.number
-    const knifesResult = await knifesModel.find({ number: knifesNumber })
-    if (knifesResult.length > 0) {
-        res.send(knifesResult);
+app.get('/knifes/search', async (req: Request, res: Response) => {
+    const query = req.query
+    const isValidQuery = checkQuery(query)
+    console.log('query is ', isValidQuery)
+    if (isValidQuery) {
+        try {
+            const knifesResult = await knifesModel.find(query)
+            if (knifesResult.length > 0) {
+                res.send(knifesResult);
+            }
+            else res.status(403).send('Knife not found')
+        } catch (e) {
+            res.status(400).send(e)
+        }
+    } else {
+        res.status(403).send('Knife not found')
     }
-    else res.status(403).send('Knife not found')
 })
+
+
 
 app.listen(PORT, () => {
     console.log(`API is listening on port ${PORT}`);

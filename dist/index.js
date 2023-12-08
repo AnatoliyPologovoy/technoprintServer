@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const knifes_1 = require("./knifes");
 const mongoose_1 = __importDefault(require("mongoose"));
 const knifesModel_1 = require("./knifesModel");
 const cors_1 = __importDefault(require("cors"));
+const checkQuery_1 = require("./helpers/checkQuery");
 const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net/?retryWrites=true&w=majority";
 // const setKnifes = async (items: Knifes[]) => {
 //     if ((await knifesModel.find()).length === 0) {
@@ -26,11 +26,11 @@ const uri = "mongodb+srv://photoje:8mEYCTWaC5KnA7G4@cluster0.tgvvgdy.mongodb.net
 //         })
 //     }
 // }
-const setFragmentsKnifes = (items) => __awaiter(void 0, void 0, void 0, function* () {
-    items.forEach((item) => __awaiter(void 0, void 0, void 0, function* () {
-        yield knifesModel_1.knifesModel.updateOne({ number: item.number }, { fragments: item.fragments });
-    }));
-});
+// const setFragmentsKnifes = async (items: Knifes[]) => {
+//     items.forEach(async (item) => {
+//         await knifesModel.updateOne({number: item.number}, {fragments: item.fragments})
+//     })
+// }
 // const addBase64toBD = async () => {
 //     newKnifesWithBase64.forEach( async (item) => {
 //         await knifesModel.updateOne({number: item.number}, {base64: item.base64})
@@ -41,7 +41,7 @@ mongoose_1.default
     .then(() => __awaiter(void 0, void 0, void 0, function* () {
     // await setKnifes(knifes)
     // addBase64toBD()
-    yield setFragmentsKnifes(knifes_1.knifes);
+    // await setFragmentsKnifes(knifes)
     console.log('mongoDB connected');
 }))
     .catch((err) => console.log(err));
@@ -56,14 +56,26 @@ app.get('/knifes', (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     const allKnifes = yield knifesModel_1.knifesModel.find();
     res.send(allKnifes);
 }));
-app.get('/knifes/:number', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const knifesNumber = req.params.number;
-    const knifesResult = yield knifesModel_1.knifesModel.find({ number: knifesNumber });
-    if (knifesResult) {
-        res.send(knifesResult);
+app.get('/knifes/search', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const query = req.query;
+    const isValidQuery = (0, checkQuery_1.checkQuery)(query);
+    console.log('query is ', isValidQuery);
+    if (isValidQuery) {
+        try {
+            const knifesResult = yield knifesModel_1.knifesModel.find(query);
+            if (knifesResult.length > 0) {
+                res.send(knifesResult);
+            }
+            else
+                res.status(403).send('Knife not found');
+        }
+        catch (e) {
+            res.status(400).send(e);
+        }
     }
-    else
+    else {
         res.status(403).send('Knife not found');
+    }
 }));
 app.listen(PORT, () => {
     console.log(`API is listening on port ${PORT}`);
